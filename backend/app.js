@@ -10,7 +10,6 @@ app.use(cors());
 app.use(morgan('dev'));
 
 app.get('/', (req, res) => {
-  console.log('req');
   res.json({ key: 'success' });
 });
 
