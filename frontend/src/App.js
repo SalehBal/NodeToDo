@@ -1,30 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
-import callApi from './utils/callApi';
-
+import axios from 'axios';
+var link = 'http://localhost:8000';
 function App() {
-  const click = () => {
-    callApi(
-      '/',
-      'GET',
-      {},
-      () => {},
-      () => {}
-    );
-  };
-  return (
-    <div className='App'>
-      <header onClick={click} className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a className='App-link' href='https://reactjs.org' target='_blank' rel='noopener noreferrer'>
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  async function fetchText() {
+    axios.get(link).then((res) => {
+      console.log('res', res);
+    });
+  }
+  fetchText();
+  return <div className='App'></div>;
 }
 
 export default App;
