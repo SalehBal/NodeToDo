@@ -10,5 +10,4 @@ function App() {
   fetchText();
   return <div className='App'></div>;
 }
-
 export default App;
