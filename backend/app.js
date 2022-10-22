@@ -5,15 +5,31 @@ import userRouter from './routes/userRouter.js';
 
 // APP
 const app = express();
+
 // CORS
 app.use(cors());
-// LOG EVRY REQ
+
+// LOG EVRY REQUEST
 app.use(morgan('dev'));
 
-// app.get('/', (req, res) => {
-//   res.json({ key: 'success' });
-// });
+// ROUTERS
+app.use(`/api/users`, userRouter);
 
-app.use(`/api/${process.env.APIVERSION}/users`, userRouter);
+// UNHANDLED ROUTES
+app.all('*', (req, res, next) => {
+  const err = new Error(`Cant't find ${req.originalUrl}`);
+  err.statusCode = 404;
+  err.status = 'fail';
+  next(err);
+});
+// ERROR HANDLING MIDDLEWARE
+app.use((err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'error';
+  res.status(err.statusCode).json({
+    status: err.status,
+    mesagge: err.mesagge,
+  });
+});
 
 export default app;
