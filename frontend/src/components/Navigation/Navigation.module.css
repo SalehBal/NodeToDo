@@ -1,0 +1,22 @@
+.navigation {
+  height: 60px;
+  display: block;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+.navigation img {
+  width: 40px;
+}
+.navigation div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.navigation div span {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #0d47a1;
+}

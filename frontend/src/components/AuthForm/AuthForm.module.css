@@ -1,0 +1,47 @@
+.authForm {
+  width: 600px;
+  height: 500px;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.authForm div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.authForm div span {
+  color: #1e88e5;
+  text-decoration: underline;
+  transition: 0.3s;
+}
+.authForm div span:hover {
+  color: #1565c0;
+}
+.authForm form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.authForm form input {
+  width: 250px;
+  height: 30px;
+  font-size: 16px;
+  border: #1e88e5 1px solid;
+  border-radius: 5px;
+}
+.authForm form button {
+  width: 250px;
+  height: 30px;
+  font-size: 16px;
+  background: #1e88e5;
+  border: #1e88e5 1px solid;
+  border-radius: 5px;
+  color: #fff;
+}

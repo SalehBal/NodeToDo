@@ -1,13 +1,15 @@
+import React from 'react';
+import AuthForm from './components/AuthForm/AuthForm';
+import Navigation from './components/Navigation/Navigation';
 import './App.css';
-import axios from 'axios';
-var link = 'http://localhost:8000';
 function App() {
-  async function fetchText() {
-    axios.get(link).then((res) => {
-      console.log('res', res);
-    });
-  }
-  fetchText();
-  return <div className='App'></div>;
+  return (
+    <div className='App'>
+      <Navigation />
+      <div className='appBody'>
+        <AuthForm />
+      </div>
+    </div>
+  );
 }
 export default App;
