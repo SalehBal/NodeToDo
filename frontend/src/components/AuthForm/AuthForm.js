@@ -1,6 +1,9 @@
 import React, { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import css from './AuthForm.module.css';
 import axios from 'axios';
+
+/*------------------------------------------------------*/
 
 function AuthForm() {
   const [isSignup, setIsSignup] = useState(false);
@@ -8,6 +11,8 @@ function AuthForm() {
   const emailRef = useRef('');
   const passwordRef = useRef('');
   const passwordConfirmRef = useRef('');
+  const dispatchFn = useDispatch();
+
   const toogleLogin = () => setIsSignup(false);
   const toogleSignup = () => setIsSignup(true);
 
@@ -20,7 +25,7 @@ function AuthForm() {
     }
     const url = `http://localhost:8000/api/users/${isSignup ? 'signup' : 'login'}`;
     axios.post(url, data).then((res) => {
-      console.log('res', res);
+      dispatchFn({ type: 'setLoggedIn' });
     });
   }
 
