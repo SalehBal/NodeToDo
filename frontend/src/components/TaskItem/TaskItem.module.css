@@ -1,0 +1,17 @@
+.taskitem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 700px;
+  height: 50px;
+  background: #1976d2;
+  box-shadow: 4px 4px 8px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+.taskitem p {
+  color: #fff;
+}

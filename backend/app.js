@@ -1,8 +1,10 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import userRouter from './routes/userRouter.js';
+import taskRouter from './routes/taskRouter.js';
 import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
@@ -30,8 +32,12 @@ app.use(xss());
 //PREVENT PARAMETR POLLUTION
 app.use(hpp());
 
+// Cookie parser
+app.use(cookieParser());
+
 // ROUTERS
 app.use(`/api/users`, userRouter);
+app.use(`/api/tasks`, taskRouter);
 
 // UNHANDLED ROUTES
 app.all('*', (req, res, next) => {

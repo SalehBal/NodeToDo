@@ -1,9 +1,7 @@
-.App button:focus,
-.App input:focus {
-  outline: none;
-}
-.appBody {
+.taskList {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 20px;
+  flex-direction: column;
 }

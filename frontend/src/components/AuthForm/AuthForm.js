@@ -34,6 +34,8 @@ function AuthForm() {
     const url = `http://localhost:8000/api/users/${isSignup ? 'signup' : 'login'}`;
     axios.post(url, data).then((res) => {
       dispatchFn({ type: 'setLoggedIn' });
+      localStorage.setItem('authJwt', res.data.token);
+      console.log('jwt', res.data.token);
     });
   }
 

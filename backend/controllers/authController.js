@@ -1,5 +1,6 @@
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
 
 function signToken(id) {
   return jwt.sign({ id }, process.env.JWTSECRET, {
@@ -16,10 +17,6 @@ const signup = async function (req, res, next) {
       passwordConfirm: req.body.passwordConfirm,
     });
     const token = signToken(newUser._id);
-    res.cookie('jwt', token, {
-      expires: new Date(Date.now() + process.env.JWTCOOKIEEXPIRESIN * 24 * 60 * 60 * 1000),
-      httpOnly: true,
-    });
     newUser.password = undefined;
     newUser.passwordConfirm = undefined;
     res.status(201).json({
@@ -53,15 +50,12 @@ const login = async function (req, res, next) {
         mesagge: 'Incorrect email or password!',
       });
     }
-    // IF EVRYHING IS OK SEND TOKEN TO
+    // IF EVRYHING IS OK SEND TOKEN
 
     const token = signToken(user._id);
-    res.cookie('jwt', token, {
-      expires: new Date(Date.now() + process.env.JWTCOOKIEEXPIRESIN * 24 * 60 * 60 * 1000),
-      httpOnly: true,
-    });
     res.status(200).json({
       status: 'sucess',
+      token,
     });
   } catch (err) {
     res.status(400).json({
@@ -71,7 +65,39 @@ const login = async function (req, res, next) {
   }
 };
 
+const protect = async function (req, res, next) {
+  console.log('req', req.headers);
+  try {
+    // get token and check if it exists
+    let token;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    } else {
+      return res.status(401).json({
+        status: 'fail',
+        error: 'You are not logged in!',
+      });
+    }
+
+    // validate token
+
+    const decoded = await promisify(jwt.verify)(token, process.env.JWTSECRET);
+
+    // check if user exists
+
+    const freshUser = await User.findById(decoded.id);
+
+    if (!freshUser) {
+      return res.status(401).json({
+        status: 'fail',
+        error: 'You are not logged in!',
+      });
+    }
+    next();
+  } catch (err) {}
+};
+
 const forgotPassword = async function (req, res, next) {};
 const resetPassword = async function (req, res, next) {};
 
-export { signup, login, forgotPassword, resetPassword };
+export { signup, login, forgotPassword, resetPassword, protect };
