@@ -36,7 +36,6 @@ const getAllTasks = async function (req, res, next) {
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWTSECRET);
     const tasks = await Task.find({ userId: decoded.id });
-    console.log('tasks', tasks);
     res.status(200).json({
       status: 'success',
       tasks,

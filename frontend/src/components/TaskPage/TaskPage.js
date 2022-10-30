@@ -20,7 +20,7 @@ function TaskPage() {
   }, []);
   return (
     <div>
-      <TaskForm />
+      <TaskForm refresList={getAllTasks} />
       <div className={css.taskList}>
         {taskList.map((task) => (
           <TaskItem label={task.label} key={task._id} deadline={task.deadline} taskId={task._id} />

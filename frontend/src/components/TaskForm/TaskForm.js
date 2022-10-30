@@ -4,7 +4,7 @@ import { ReactComponent as Check } from '../../img/check.svg';
 import axios from 'axios';
 import variables from '../../config';
 
-function TaskForm() {
+function TaskForm(props) {
   const [taskLabel, setTaskLabel] = useState('');
   const [taskDeadline, setTaskDeadline] = useState('');
   const labelChangeHandler = (e) => setTaskLabel(e.target.value);
@@ -18,6 +18,7 @@ function TaskForm() {
     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('authJwt')}`;
     axios.post(url, data).then((res) => {
       console.log('res', res);
+      props.refresList();
     });
   }
 
