@@ -17,15 +17,16 @@ function TaskForm(props) {
     data.deadline = taskDeadline;
     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('authJwt')}`;
     axios.post(url, data).then((res) => {
-      console.log('res', res);
       props.refresList();
+      setTaskDeadline('');
+      setTaskLabel('');
     });
   }
 
   return (
     <form onSubmit={submitHandler} className={css.form}>
-      <input type='text' onChange={labelChangeHandler} />
-      <input type='date' onChange={deadlineChangeHandler} />
+      <input type='text' value={taskLabel} onChange={labelChangeHandler} />
+      <input type='date' value={taskDeadline} onChange={deadlineChangeHandler} />
       <button type='submit'>
         <Check />
       </button>

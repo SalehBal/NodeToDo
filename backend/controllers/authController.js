@@ -66,7 +66,6 @@ const login = async function (req, res, next) {
 };
 
 const protect = async function (req, res, next) {
-  console.log('req', req.headers);
   try {
     // get token and check if it exists
     let token;

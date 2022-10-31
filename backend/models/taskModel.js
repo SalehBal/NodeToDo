@@ -7,6 +7,10 @@ const taskSchema = new mongoose.Schema({
   },
   deadline: String,
   createdDate: String,
+  status: {
+    type: String,
+    default: 'new',
+  },
   userId: {
     type: String,
     required: true,
