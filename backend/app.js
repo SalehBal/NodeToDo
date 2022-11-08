@@ -6,8 +6,10 @@ import helmet from 'helmet';
 import userRouter from './routes/userRouter.js';
 import taskRouter from './routes/taskRouter.js';
 import mongoSanitize from 'express-mongo-sanitize';
+import AppError from './utils/appError.js';
 import xss from 'xss-clean';
 import hpp from 'hpp';
+import errorController from './controllers/errorController.js';
 // APP
 const app = express();
 
@@ -41,19 +43,10 @@ app.use(`/api/tasks`, taskRouter);
 
 // UNHANDLED ROUTES
 app.all('*', (req, res, next) => {
-  res.status(404).json({
-    mesagge: 'This rouute does not exist! ' + req.originalUrl,
-  });
+  const err = new AppError(`Can't find ${req.originalUrl} on this server!`, 404);
+  next(err);
 });
 // ERROR HANDLING MIDDLEWARE
-app.use((err, req, res, next) => {
-  console.log('err', err);
-  err.statusCode = err.statusCode || 500;
-  err.status = err.status || 'error';
-  res.status(err.statusCode).json({
-    status: err.status,
-    mesagge: err.mesagge,
-  });
-});
+app.use(errorController);
 
 export default app;

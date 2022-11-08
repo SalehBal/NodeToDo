@@ -1,13 +1,11 @@
 import jwt from 'jsonwebtoken';
 import Task from '../models/taskModel.js';
+import AppError from '../utils/appError.js';
 
 const createTask = async function (req, res, next) {
   try {
     if (!req.body.label) {
-      return res.status(404).json({
-        status: 'bad req',
-        mesagge: 'No task label is recived!',
-      });
+      return next(new AppError('Please provide label!', 400));
     }
 
     const token = req.headers.authorization.split(' ')[1];
@@ -24,10 +22,7 @@ const createTask = async function (req, res, next) {
       task: newTask,
     });
   } catch (err) {
-    return res.status(404).json({
-      status: 'error',
-      mesagge: 'Something went wrong!',
-    });
+    return next(new AppError('Something went wrong!', 400));
   }
 };
 
@@ -50,16 +45,14 @@ const getAllTasks = async function (req, res, next) {
 
 const compleateTask = async function (req, res, next) {
   try {
-    console.log('req', req.params.id);
     const task = await Task.findByIdAndUpdate(
       req.params.id,
-      { $set: { status: 'compleated' } },
+      { status: 'done' },
       {
         new: true,
         runValidators: true,
       }
     );
-    console.log('task', task);
     if (!task) {
       return res.status(404).json({
         status: 'error',
@@ -69,6 +62,7 @@ const compleateTask = async function (req, res, next) {
     return res.status(204).json({
       status: 'success',
       mesagge: 'Task updated!',
+      task,
     });
   } catch (err) {
     return res.status(404).json({
@@ -77,6 +71,31 @@ const compleateTask = async function (req, res, next) {
     });
   }
 };
+
+const failTask = async function (req, res, next) {
+  console.log(req.params);
+  try {
+    const task = await Task.findByIdAndUpdate(
+      req.params.id,
+      { status: 'fail' },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    console.log('task', task);
+    if (!task) {
+      return next(new AppError('No task found!', 404));
+    }
+    return res.status(204).json({
+      status: 'success',
+      mesagge: 'Task updated!',
+      task,
+    });
+  } catch (err) {
+    return next(new AppError('Something went wrong!', 400));
+  }
+};
 const deleteTask = async function (req, res, next) {};
 
-export { createTask, getAllTasks, deleteTask, compleateTask };
+export { createTask, getAllTasks, deleteTask, compleateTask, failTask };

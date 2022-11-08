@@ -11,7 +11,6 @@ function TaskPage() {
     const url = `${variables.url}/tasks`;
     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('authJwt')}`;
     axios.get(url).then((res) => {
-      console.log('res', res);
       setTaskList(res.data.tasks);
     });
   }

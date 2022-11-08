@@ -10,6 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: 0.3s;
   padding: 0 20px;
 }
 .taskitem p {
@@ -25,4 +26,9 @@
   width: 100%;
   height: 100%;
   fill: #fff;
+  font-weight: 500;
+}
+.taskitem:hover {
+  scale: 1.03;
+  box-shadow: 6px 6px 10px 4px rgba(0, 0, 0, 0.05);
 }

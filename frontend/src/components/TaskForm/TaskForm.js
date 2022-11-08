@@ -16,6 +16,7 @@ function TaskForm(props) {
     data.label = taskLabel;
     data.deadline = taskDeadline;
     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('authJwt')}`;
+    // if (!data.deadline || !data.label) return
     axios.post(url, data).then((res) => {
       props.refresList();
       setTaskDeadline('');

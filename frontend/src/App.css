@@ -7,3 +7,11 @@
   justify-content: center;
   align-items: center;
 }
+.App button {
+  transition: 0.3s;
+}
+
+.App button:hover {
+  /* scale: 1.01; */
+  opacity: 0.8;
+}
