@@ -11,11 +11,6 @@ const authReducer = (state = initialState, action) => {
       isLoggedIn: true,
     };
   }
-  if (action.type === 'refreshList') {
-    return {
-      isLoggedIn: true,
-    };
-  }
   return state;
 };
 

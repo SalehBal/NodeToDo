@@ -95,8 +95,41 @@ const protect = async function (req, res, next) {
     next();
   } catch (err) {}
 };
+const loginAutomatically = async function (req, res, next) {
+  try {
+    // get token and check if it exists
+    let token;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    } else {
+      return res.status(401).json({
+        status: 'fail',
+        error: 'You are not logged in!',
+      });
+    }
+
+    // validate token
+
+    const decoded = await promisify(jwt.verify)(token, process.env.JWTSECRET);
+
+    // check if user exists
+
+    const freshUser = await User.findById(decoded.id);
+
+    if (!freshUser) {
+      return res.status(401).json({
+        status: 'fail',
+        error: 'You are not logged in!',
+      });
+    }
+    return res.status(200).json({
+      status: 'success',
+      error: 'You are logged in!',
+    });
+  } catch (err) {}
+};
 
 const forgotPassword = async function (req, res, next) {};
 const resetPassword = async function (req, res, next) {};
 
-export { signup, login, forgotPassword, resetPassword, protect };
+export { signup, login, forgotPassword, resetPassword, protect, loginAutomatically };
